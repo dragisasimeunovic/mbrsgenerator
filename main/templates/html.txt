@@ -1,0 +1,35 @@
+<form [formGroup]="{{clsObj}}Form" (submit)="save()">
+
+{% for dictField in fields %}
+  {% for fieldName, type in dictField.items() %}
+  {% if fieldName != 'id' %}
+    <div class="form-group">
+      <mat-form-field>
+        <input
+                matInput
+                placeholder="{{fieldName}}"
+                class="form-control"
+                formControlName="{{fieldName}}" >
+      </mat-form-field>
+    </div>
+   {% endif %}
+  {% endfor %}
+{% endfor %}
+
+{% for veza in veze %}
+{% for v, vid in veza.items() -%}
+<br>
+<div class="form-group">
+    <mat-select placeholder="{{v}}" formControlName="{{vid}}">
+        <mat-option *ngFor="let {{v[0]|lower}} of all{{v}}" [value]="{{v[0]|lower}}.id">
+        {{specOpen}}{{v[0]|lower}}.naziv{{specClose}}
+        </mat-option>
+    </mat-select>
+</div>
+<br>
+{%- endfor %}
+{% endfor %}
+
+<button mat-button type="submit" [disabled]="!{{clsObj}}Form.valid">Save</button>
+
+</form>

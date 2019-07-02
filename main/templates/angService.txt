@@ -1,0 +1,34 @@
+import { Injectable } from '@angular/core';
+import { Http } from '@angular/http';
+import 'rxjs/add/operator/map';
+
+@Injectable()
+export class {{className}}Service {
+
+  private url = "http://localhost:9000/api";
+
+  constructor(private http : Http) { }
+
+  save{{className}}({{clsObj}}: any) {
+    return this.http.post(this.url + "/{{className|lower}}/save", {{clsObj}}).map(res=>res.json());
+  }
+
+  update{{className}}({{clsObj}}: any, id: number) {
+    {{clsObj}}.id = id;
+    return this.http.post(this.url + "/{{className|lower}}/save", {{clsObj}}).map(res=>res.json());
+  }
+
+  get{{className}}(id) {
+    return this.http.get(this.url + "/{{className|lower}}/get/" + id).map(res=>res.json());
+  }
+
+  all{{className}}() {
+    return this.http.get(this.url + "/{{className|lower}}/findAll").map(res=>res.json());
+  }
+
+  delete{{className}}({{clsObj}}: any) {
+    return this.http.post(this.url + "/{{className|lower}}/obrisi", {{clsObj}}).map(res=>res.json());
+  }
+
+
+}

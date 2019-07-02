@@ -1,0 +1,10 @@
+package com.mbrs.generator.repository;
+
+import com.mbrs.generator.model.{{className}};
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Collection;
+
+public interface {{className}}Repository extends JpaRepository<{{className}}, Long> {
+
+}

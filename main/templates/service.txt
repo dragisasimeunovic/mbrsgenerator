@@ -1,0 +1,37 @@
+package com.mbrs.generator.service;
+
+import com.mbrs.generator.model.{{className}};
+import com.mbrs.generator.repository.{{className}}Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Collection;
+
+@Service
+public class {{className}}Service {
+
+    @Autowired
+    private {{className}}Repository {{clsObj}}Repository;
+
+    public {{className}} save({{className}} {{clsObj}}) {
+        return {{clsObj}}Repository.save({{clsObj}});
+    }
+
+    public {{className}} findOne(Long id) {
+        return {{clsObj}}Repository.findById(id).get();
+    }
+
+    public Collection<{{className}}> findAll() {
+        return {{clsObj}}Repository.findAll();
+    }
+
+    public void delete({{className}} {{clsObj}}) {
+        {{clsObj}}Repository.delete({{clsObj}});
+    }
+
+    public void delete(Long id) {
+        {{clsObj}}Repository.deleteById(id);
+    }
+
+}
+

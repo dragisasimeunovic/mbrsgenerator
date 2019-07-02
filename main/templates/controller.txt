@@ -1,0 +1,53 @@
+package com.mbrs.generator.controller;
+
+import com.mbrs.generator.model.{{className}};
+import com.mbrs.generator.service.{{className}}Service;
+
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Collection;
+
+@RestController
+@CrossOrigin(origins = "http://localhost:4200")
+public class {{className}}Controller {
+
+    @Autowired
+    private {{className}}Service {{clsObj}}Service;
+
+
+    @RequestMapping(
+        value    = "api/{{className|lower}}/findAll",
+        method   = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<Collection<{{className}}>> findAll() {
+        Collection<{{className}}> all{{className}} = {{clsObj}}Service.findAll();
+        return new ResponseEntity<>(all{{className}}, HttpStatus.OK);
+    }
+
+    @RequestMapping(
+        value    = "api/{{className|lower}}/findOne{id}",
+        method   = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<{{className}}> findOne(@PathVariable Long id) {
+        {{className}} {{clsObj}} = {{clsObj}}Service.findOne(id);
+        return new ResponseEntity<>({{clsObj}}, HttpStatus.OK);
+    }
+
+    @RequestMapping(
+        value    = "api/{{className|lower}}/save",
+        method   = RequestMethod.POST,
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<{{className}}> save(@RequestBody {{className}} {{clsObj}}) {
+        {{className}} {{clsObj}}Saved = {{clsObj}}Service.save({{clsObj}});
+        return new ResponseEntity<>({{clsObj}}Saved, HttpStatus.OK);
+    }
+
+}

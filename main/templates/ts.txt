@@ -1,0 +1,62 @@
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { {{className}}Service } from '../{{classNameDash}}/{{classNameDash}}.service';
+{% for veza in vezeImports -%}
+{% for v, vDash in veza.items() -%}
+import { {{v}}Service } from '../{{vDash}}/{{vDash}}.service';
+{%- endfor %}
+{%- endfor %}
+
+@Component({
+  selector: 'app-{{classNameDash}}',
+  templateUrl: './{{classNameDash}}.component.html',
+  styleUrls: ['./{{classNameDash}}.component.css']
+})
+export class {{className}}Component implements OnInit {
+
+  {{clsObj}}Form: FormGroup;
+
+  {% for veza in veze %}
+  {% for v, vid in veza.items() -%}
+  all{{v}} : any;
+  {%- endfor %}
+  {% endfor %}
+
+  constructor(private router: Router, private route: ActivatedRoute, private {{clsObj}}Service: {{className}}Service {% for veza in veze %} {% for v, vid in veza.items() -%}, private {{v[0]|lower}}{{v[1:]}}Service: {{v}}Service{%- endfor %}{% endfor %} ) { }
+
+  ngOnInit() {
+
+    this.{{clsObj}}Form = new FormGroup({
+      {% for dictField in fields -%}
+        {% for fieldName, type in dictField.items() -%}
+            {% if fieldName == 'id' %}
+      {{fieldName}}: new FormControl(null),
+            {% else %}
+      {{fieldName}}: new FormControl('', [Validators.required]),
+            {% endif %}
+        {%- endfor %}
+      {%- endfor %}
+      {% for vezica in vezice -%}
+      {{vezica}}: new FormControl('', [Validators.required]),
+      {%- endfor %}
+
+    })
+
+    {% for veza in veze %}
+    {% for v, vid in veza.items() -%}
+    this.{{v[0]|lower}}{{v[1:]}}Service.all{{v}}().subscribe(data=>{
+      this.all{{v}} = data;
+    })
+    {%- endfor %}
+    {% endfor %}
+
+  }
+
+  save() {
+    this.{{clsObj}}Service.save{{className}}(this.{{clsObj}}Form.value).subscribe(data=>{
+      this.router.navigate(['/all{{className}}']);
+    })
+  }
+
+}

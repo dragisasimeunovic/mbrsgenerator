@@ -1,0 +1,48 @@
+package com.mbrs.generator.model;
+
+import java.io.Serializable;
+import javax.persistence.*;
+
+@Entity
+public class {{className}} implements Serializable {
+
+{% for dictField in fields %}
+  {% for fieldName, type in dictField.items() %}
+
+    {% if fieldName == 'id' %}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    {% endif %}
+    private {{type|title}} {{fieldName}};
+  {% endfor %}
+{% endfor %}
+
+{% for vezica in vezice %}
+    private Long {{vezica}};
+{% endfor %}
+
+    public {{className}}() {}
+
+{% for dictField in fields %}
+  {% for fieldName, type in dictField.items() %}
+    public {{type|title}} get{{fieldName|title}}() {
+        return this.{{fieldName}};
+    }
+
+    public void set{{fieldName|title}}({{type|title}} {{fieldName}}) {
+        this.{{fieldName}} = {{fieldName}};
+    }
+  {% endfor %}
+{% endfor %}
+
+{% for vezica in vezice %}
+    public Long get{{vezica[0]|title}}{{vezica[1:]}}() {
+        return this.{{vezica}};
+    }
+
+    public void set{{vezica[0]|title}}{{vezica[1:]}}(Long {{vezica}}) {
+        this.{{vezica}} = {{vezica}};
+    }
+{% endfor %}
+
+}
